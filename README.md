@@ -2,19 +2,22 @@ PiKiln
 ==========
 
 Turns a Raspberry Pi into a cheap, universal & web-enabled kiln controller.
-Based heavily on https://github.com/apollo-ng/picoReflow with the following changes:
+Based heavily on [picoReflow](https://github.com/apollo-ng/picoReflow) with the following changes:
 * Renaming for kiln-related activities
 * Removal of unrelated routines
 * Addition of logging and review for past firings
 
-
 **Standard Interface**
 
-![Image](https://apollo.open-resource.org/_media/mission:resources:picoreflow_webinterface.jpg)
+To be updated
 
 **Curve Editor**
 
-![Image](https://apollo.open-resource.org/_media/mission:resources:picoreflow_webinterface_edit.jpg)
+To be updated
+
+**Firing History**
+
+To be updated
 
 ## Hardware
 
@@ -51,7 +54,7 @@ successfully on any other OS, please update this:
 
 #### Raspberry PI deployment
 
-If you want to deploy the code on a PI for production:
+If you want to deploy the code on a Pi for production:
 
     $ pip install RPi.GPIO
 
@@ -84,8 +87,8 @@ If you want the server to autostart on boot, run the following commands
 
 ### Client Access
 
-Open Browser and goto http://127.0.0.1:8081 (for local development) or the IP
-of your PI and the port defined in config.py (default 8081).
+Open Browser and go to http://127.0.0.1:8081 (for local development) or the IP
+of your Pi and the port defined in config.py (default 8081).
 
 ## License
 
