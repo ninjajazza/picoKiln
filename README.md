@@ -1,7 +1,7 @@
 piKiln
 ==========
 
-Turns a Raspberry Pi into a cheap, universal & web-enabled kiln controller.
+Turns a Raspberry Pi into a cheap, universal & web-enabled electric kiln controller.
 Based heavily on [picoReflow](https://github.com/apollo-ng/picoReflow) with the following changes:
 * Renaming for kiln-related activities
 * Removal of unrelated routines
@@ -21,11 +21,13 @@ To be updated
 
 ## Hardware
 
+  * Tetlow K4A FL 15A Electric Kiln
   * Raspberry Pi (Rev 3B)
   * MAX 31855 Driver board
   * Cold-Junction K-Type Thermocouple
   * 25A Solid State Relay
-  * Microswitch
+  * Relay heatsink
+  * Microswitch for door detection
 
 ### Schematic
 WIP
