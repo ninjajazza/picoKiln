@@ -22,8 +22,13 @@ To be updated
 ## Hardware
 
   * Raspberry Pi (Rev 3B)
-  * MAX 31855 Cold-Junction K-Type Thermocouple
-  * GPIO driven Solid-State-Relay
+  * MAX 31855 Driver board
+  * Cold-Junction K-Type Thermocouple
+  * 25A Solid State Relay
+  * Microswitch
+
+### Schematic
+WIP
 
 ## Installation
 
@@ -63,8 +68,8 @@ RPi.GPIO with the default installation.
 
 ### Clone repo
 
-    $ git clone https://github.com/apollo-ng/picoReflow.git
-    $ cd picoReflow
+    $ git clone https://github.com/ninjajazza/PiKiln.git
+    $ cd PiKiln
 
 ## Configuration
 
@@ -81,7 +86,7 @@ All parameters are defined in config.py, just copy the example and review/change
 ### Autostart Server on Boot
 If you want the server to autostart on boot, run the following commands
 
-    sudo cp /home/pi/picoReflow/lib/init/reflow /etc/init.d/
+    sudo cp /home/pi/PiKiln/lib/init/reflow /etc/init.d/
     sudo chmod +x /etc/init.d/reflow
     sudo update-rc.d reflow defaults
 
