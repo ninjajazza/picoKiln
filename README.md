@@ -1,11 +1,12 @@
-picoReflow
+PiKiln
 ==========
 
-Turns a Raspberry Pi into a cheap, universal & web-enabled Reflow Oven Controller.
-Of course, since it is basically just a robot sensing temperature and controlling
-environmental agitators (heating/cooling) you can use it as inspiration / basis
-when you're in need of a PID based temperature controller for your project.
-Don't forget to share and drop a link, when you do :)
+Turns a Raspberry Pi into a cheap, universal & web-enabled kiln controller.
+Based heavily on https://github.com/apollo-ng/picoReflow with the following changes:
+* Renaming for kiln-related activities
+* Removal of unrelated routines
+* Addition of logging and review for past firings
+
 
 **Standard Interface**
 
@@ -17,15 +18,15 @@ Don't forget to share and drop a link, when you do :)
 
 ## Hardware
 
-  * Raspberry Pi (Rev 2B)
-  * MAX 31855/6675 Cold-Junction K-Type Thermocouple
-  * GPIO driven Solid-State-Relays/MOSFETs
+  * Raspberry Pi (Rev 3B)
+  * MAX 31855 Cold-Junction K-Type Thermocouple
+  * GPIO driven Solid-State-Relay
 
 ## Installation
 
 ### Dependencies
 
-We've tried to keep external dependencies to a minimum to make it easily
+The original developer tried to keep external dependencies to a minimum to make it easily
 deployable on any flavor of open-source operating system. If you deploy it
 successfully on any other OS, please update this:
 
@@ -74,7 +75,7 @@ All parameters are defined in config.py, just copy the example and review/change
 
     $ ./picoReflowd.py
 
-### Autostart Server onBoot
+### Autostart Server on Boot
 If you want the server to autostart on boot, run the following commands
 
     sudo cp /home/pi/picoReflow/lib/init/reflow /etc/init.d/
@@ -83,8 +84,8 @@ If you want the server to autostart on boot, run the following commands
 
 ### Client Access
 
-Open Browser and goto http://127.0.0.1:8080 (for local development) or the IP
-of your PI and the port defined in config.py (default 8080).
+Open Browser and goto http://127.0.0.1:8081 (for local development) or the IP
+of your PI and the port defined in config.py (default 8081).
 
 ## License
 
@@ -104,5 +105,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ## Support & Contact
 
 Please use the issue tracker for project related issues.
-
-More info: https://apollo.open-resource.org/mission:resources:picoreflow
