@@ -21,27 +21,27 @@ except:
     exit(1)
 
 logging.basicConfig(level=config.log_level, format=config.log_format)
-log = logging.getLogger("picoreflowd")
-log.info("Starting picoreflowd")
+log = logging.getLogger("pikilnd")
+log.info("Starting pikilnd")
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, script_dir + '/lib/')
 profile_path = os.path.join(script_dir, "storage", "profiles")
 
-from oven import Oven, Profile
-from ovenWatcher import OvenWatcher
+from kiln import Kiln, Profile
+from kilnWatcher import kilnWatcher
 
 app = bottle.Bottle()
-oven = Oven()
-ovenWatcher = OvenWatcher(oven)
+kiln = Kiln()
+kilnWatcher = kilnWatcher(kiln)
 
 
 @app.route('/')
 def index():
-    return bottle.redirect('/picoreflow/index.html')
+    return bottle.redirect('/pikiln/index.html')
 
 
-@app.route('/picoreflow/:filename#.*#')
+@app.route('/pikiln/:filename#.*#')
 def send_static(filename):
     log.debug("serving %s" % filename)
     return bottle.static_file(filename, root=os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "public"))
@@ -70,22 +70,22 @@ def handle_control():
                 if profile_obj:
                     profile_json = json.dumps(profile_obj)
                     profile = Profile(profile_json)
-                oven.run_profile(profile)
-                ovenWatcher.record(profile)
+                kiln.run_profile(profile)
+                kilnWatcher.record(profile)
             elif msgdict.get("cmd") == "SIMULATE":
                 log.info("SIMULATE command received")
                 profile_obj = msgdict.get('profile')
                 if profile_obj:
                     profile_json = json.dumps(profile_obj)
                     profile = Profile(profile_json)
-                simulated_oven = Oven(simulate=True, time_step=0.05)
-                simulation_watcher = OvenWatcher(simulated_oven)
+                simulated_kiln = Kiln(simulate=True, time_step=0.05)
+                simulation_watcher = kilnWatcher(simulated_kiln)
                 simulation_watcher.add_observer(wsock)
-                #simulated_oven.run_profile(profile)
+                #simulated_kiln.run_profile(profile)
                 #simulation_watcher.record(profile)
             elif msgdict.get("cmd") == "STOP":
                 log.info("Stop command received")
-                oven.abort_run()
+                kiln.abort_run()
         except WebSocketError:
             break
     log.info("websocket (control) closed")
@@ -152,7 +152,7 @@ def handle_config():
 @app.route('/status')
 def handle_status():
     wsock = get_websocket_from_request()
-    ovenWatcher.add_observer(wsock)
+    kilnWatcher.add_observer(wsock)
     log.info("websocket (status) opened")
     while True:
         try:
@@ -202,7 +202,7 @@ def get_config():
         "time_scale_slope": config.time_scale_slope,
         "time_scale_profile": config.time_scale_profile,
         "kwh_rate": config.kwh_rate,
-        "currency_type": config.currency_type})    
+        "currency_type": config.currency_type})
 
 
 def main():

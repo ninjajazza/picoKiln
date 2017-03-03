@@ -334,7 +334,7 @@ function saveProfile()
         }
         else
         {
-          $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR 88:</b><br/>An oven is not a time-machine", {
+          $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR 88:</b><br/>An kiln is not a time-machine", {
             ele: 'body', // which element to append to
             type: 'alert', // (null, 'info', 'error', 'success')
             offset: {from: 'top', amount: 250}, // 'top', or 'bottom'

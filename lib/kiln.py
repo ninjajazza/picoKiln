@@ -1,4 +1,4 @@
-import threading
+kilnimport threading
 import time
 import random
 import datetime
@@ -35,12 +35,12 @@ try:
 
     gpio_available = True
 except ImportError:
-    msg = "Could not initialize GPIOs, oven operation will only be simulated!"
+    msg = "Could not initialize GPIOs, kiln operation will only be simulated!"
     log.warning(msg)
     gpio_available = False
 
 
-class Oven (threading.Thread):
+class Kiln (threading.Thread):
     STATE_IDLE = "IDLE"
     STATE_RUNNING = "RUNNING"
 
@@ -68,7 +68,7 @@ class Oven (threading.Thread):
         self.totaltime = 0
         self.target = 0
         self.door = self.get_door_state()
-        self.state = Oven.STATE_IDLE
+        self.state = Kiln.STATE_IDLE
         self.set_heat(False)
         self.set_cool(False)
         self.set_air(False)
@@ -78,7 +78,7 @@ class Oven (threading.Thread):
         log.info("Running profile %s" % profile.name)
         self.profile = profile
         self.totaltime = profile.get_duration()
-        self.state = Oven.STATE_RUNNING
+        self.state = Kiln.STATE_RUNNING
         self.start_time = datetime.datetime.now()
         log.info("Starting")
 
@@ -91,7 +91,7 @@ class Oven (threading.Thread):
         while True:
             self.door = self.get_door_state()
 
-            if self.state == Oven.STATE_RUNNING:
+            if self.state == Kiln.STATE_RUNNING:
                 if self.simulate:
                     self.runtime += 0.5
                 else:
@@ -113,15 +113,15 @@ class Oven (threading.Thread):
                         temperature_count = 0
                     # If the heat is on and nothing is changing, reset
                     # The direction or amount of change does not matter
-                    # This prevents runaway in the event of a sensor read failure                   
+                    # This prevents runaway in the event of a sensor read failure
                     if temperature_count > 20:
-                        log.info("Error reading sensor, oven temp not responding to heat.")
+                        log.info("Error reading sensor, kiln temp not responding to heat.")
                         self.reset()
                 else:
                     temperature_count = 0
-                
+
                 self.set_heat(pid > 0)
-                
+
                 #if self.profile.is_rising(self.runtime):
                 #    self.set_cool(False)
                 #    self.set_heat(self.temp_sensor.temperature < self.target)
@@ -231,51 +231,51 @@ class TempSensorReal(TempSensor):
 
 
 class TempSensorSimulate(TempSensor):
-    def __init__(self, oven, time_step, sleep_time):
+    def __init__(self, kiln, time_step, sleep_time):
         TempSensor.__init__(self, time_step)
-        self.oven = oven
+        self.kiln = kiln
         self.sleep_time = sleep_time
 
     def run(self):
         t_env      = config.sim_t_env
         c_heat     = config.sim_c_heat
-        c_oven     = config.sim_c_oven
+        c_kiln     = config.sim_c_kiln
         p_heat     = config.sim_p_heat
         R_o_nocool = config.sim_R_o_nocool
         R_o_cool   = config.sim_R_o_cool
         R_ho_noair = config.sim_R_ho_noair
         R_ho_air   = config.sim_R_ho_air
 
-        t = t_env  # deg C  temp in oven
+        t = t_env  # deg C  temp in kiln
         t_h = t    # deg C temp of heat element
         while True:
             #heating energy
-            Q_h = p_heat * self.time_step * self.oven.heat
+            Q_h = p_heat * self.time_step * self.kiln.heat
 
             #temperature change of heat element by heating
             t_h += Q_h / c_heat
 
-            if self.oven.air:
+            if self.kiln.air:
                 R_ho = R_ho_air
             else:
                 R_ho = R_ho_noair
 
-            #energy flux heat_el -> oven
+            #energy flux heat_el -> kiln
             p_ho = (t_h - t) / R_ho
 
-            #temperature change of oven and heat el
-            t   += p_ho * self.time_step / c_oven
+            #temperature change of kiln and heat el
+            t   += p_ho * self.time_step / c_kiln
             t_h -= p_ho * self.time_step / c_heat
 
-            #energy flux oven -> env
-            if self.oven.cool:
+            #energy flux kiln -> env
+            if self.kiln.cool:
                 p_env = (t - t_env) / R_o_cool
             else:
                 p_env = (t - t_env) / R_o_nocool
 
-            #temperature change of oven by cooling to env
-            t -= p_env * self.time_step / c_oven
-            log.debug("energy sim: -> %dW heater: %.0f -> %dW oven: %.0f -> %dW env" % (int(p_heat * self.oven.heat), t_h, int(p_ho), t, int(p_env)))
+            #temperature change of kiln by cooling to env
+            t -= p_env * self.time_step / c_kiln
+            log.debug("energy sim: -> %dW heater: %.0f -> %dW kiln: %.0f -> %dW env" % (int(p_heat * self.kiln.heat), t_h, int(p_ho), t, int(p_env)))
             self.temperature = t
 
             time.sleep(self.sleep_time)

@@ -1,9 +1,9 @@
 import threading,logging,json,time,datetime
-from oven import Oven
+from kiln import Kiln
 log = logging.getLogger(__name__)
 
-class OvenWatcher(threading.Thread):
-    def __init__(self,oven):
+class KilnWatcher(threading.Thread):
+    def __init__(self,kiln):
         self.last_profile = None
         self.last_log = []
         self.started = None
@@ -13,40 +13,40 @@ class OvenWatcher(threading.Thread):
         self.daemon = True
         self.log_skip_counter = 0
 
-        self.oven = oven
+        self.kiln = kiln
         self.start()
 
     def run(self):
         while True:
-            oven_state = self.oven.get_state()
-            
-            if oven_state.get("state") == Oven.STATE_RUNNING:
+            kiln_state = self.kiln.get_state()
+
+            if kiln_state.get("state") == Kiln.STATE_RUNNING:
                 if self.log_skip_counter==0:
-                    self.last_log.append(oven_state)
+                    self.last_log.append(kiln_state)
             else:
                 self.recording = False
-            self.notify_all(oven_state)
+            self.notify_all(kiln_state)
             self.log_skip_counter = (self.log_skip_counter +1)%20
-            time.sleep(self.oven.time_step)
-    
+            time.sleep(self.kiln.time_step)
+
     def record(self, profile):
         self.last_profile = profile
         self.last_log = []
         self.started = datetime.datetime.now()
         self.recording = True
         #we just turned on, add first state for nice graph
-        self.last_log.append(self.oven.get_state())
+        self.last_log.append(self.kiln.get_state())
 
     def add_observer(self,observer):
         if self.last_profile:
             p = {
                 "name": self.last_profile.name,
-                "data": self.last_profile.data, 
+                "data": self.last_profile.data,
                 "type" : "profile"
             }
         else:
             p = None
-        
+
         backlog = {
             'type': "backlog",
             'profile': p,
@@ -60,7 +60,7 @@ class OvenWatcher(threading.Thread):
             observer.send(backlog_json)
         except:
             log.error("Could not send backlog to new observer")
-        
+
         self.observers.append(observer)
 
     def notify_all(self,message):

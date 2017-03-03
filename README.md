@@ -1,4 +1,4 @@
-PiKiln
+piKiln
 ==========
 
 Turns a Raspberry Pi into a cheap, universal & web-enabled kiln controller.
@@ -68,8 +68,8 @@ RPi.GPIO with the default installation.
 
 ### Clone repo
 
-    $ git clone https://github.com/ninjajazza/PiKiln.git
-    $ cd PiKiln
+    $ git clone https://github.com/ninjajazza/piKiln.git
+    $ cd piKiln
 
 ## Configuration
 
@@ -86,9 +86,9 @@ All parameters are defined in config.py, just copy the example and review/change
 ### Autostart Server on Boot
 If you want the server to autostart on boot, run the following commands
 
-    sudo cp /home/pi/PiKiln/lib/init/reflow /etc/init.d/
-    sudo chmod +x /etc/init.d/reflow
-    sudo update-rc.d reflow defaults
+    sudo cp /home/pi/piKiln/lib/init/pikiln /etc/init.d/
+    sudo chmod +x /etc/init.d/pikiln
+    sudo update-rc.d pikiln defaults
 
 ### Client Access
 
