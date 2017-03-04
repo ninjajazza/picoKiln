@@ -52,10 +52,11 @@ class Kiln (threading.Thread):
         self.reset()
         if simulate:
             self.temp_sensor = TempSensorSimulate(self, 0.5, self.time_step)
-        if sensor_available:
-            self.temp_sensor = TempSensorReal(self.time_step)
         else:
-            self.temp_sensor = TempSensorSimulate(self,
+            if sensor_available:
+                self.temp_sensor = TempSensorReal(self.time_step)
+            else:
+                self.temp_sensor = TempSensorSimulate(self,
                                                   self.time_step,
                                                   self.time_step)
         self.temp_sensor.start()
