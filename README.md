@@ -9,7 +9,7 @@ Based heavily on [picoReflow](https://github.com/apollo-ng/picoReflow) with the 
 
 **Standard Interface**
 
-[[/docs/images/piKiln-home-screen.png]]
+![Interface](/docs/images/piKiln-home-screen.png)
 
 **Curve Editor**
 
@@ -31,7 +31,7 @@ To be updated
 
 ### Schematic
 
-[[/docs/images/piKiln-schematic.png]]
+![Schematic](/docs/images/piKiln-schematic.png)
 
 ## Installation
 
