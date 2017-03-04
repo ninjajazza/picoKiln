@@ -233,7 +233,7 @@ class TempSensorReal(TempSensor):
 
 class TempSensorSimulate(TempSensor):
     def __init__(self, kiln, time_step, sleep_time):
-        #TempSensor.__init__(self, time_step)
+        TempSensor.__init__(self, time_step)
         self.kiln = kiln
         self.sleep_time = sleep_time
 
