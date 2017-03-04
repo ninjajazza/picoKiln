@@ -83,7 +83,7 @@ All parameters are defined in config.py, just copy the example and review/change
 
 ### Server Startup
 
-    $ ./picoReflowd.py
+    $ ./pikilnd.py
 
 ### Autostart Server on Boot
 If you want the server to autostart on boot, run the following commands
