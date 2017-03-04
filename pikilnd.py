@@ -72,15 +72,15 @@ def handle_control():
                     profile = Profile(profile_json)
                 kiln.run_profile(profile)
                 kilnWatcher.record(profile)
-            elif msgdict.get("cmd") == "SIMULATE":
-                log.info("SIMULATE command received")
-                profile_obj = msgdict.get('profile')
-                if profile_obj:
-                    profile_json = json.dumps(profile_obj)
-                    profile = Profile(profile_json)
-                simulated_kiln = Kiln(simulate=True, time_step=0.05)
-                simulation_watcher = kilnWatcher(simulated_kiln)
-                simulation_watcher.add_observer(wsock)
+            #elif msgdict.get("cmd") == "SIMULATE":
+            #    log.info("SIMULATE command received")
+            #    profile_obj = msgdict.get('profile')
+            #    if profile_obj:
+            #        profile_json = json.dumps(profile_obj)
+            #        profile = Profile(profile_json)
+            #    simulated_kiln = Kiln(simulate=True, time_step=0.05)
+            #    simulation_watcher = kilnWatcher(simulated_kiln)
+            #    simulation_watcher.add_observer(wsock)
                 #simulated_kiln.run_profile(profile)
                 #simulation_watcher.record(profile)
             elif msgdict.get("cmd") == "STOP":

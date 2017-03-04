@@ -29,8 +29,8 @@ try:
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(config.gpio_heat, GPIO.OUT)
-    GPIO.setup(config.gpio_cool, GPIO.OUT)
-    GPIO.setup(config.gpio_air, GPIO.OUT)
+    #GPIO.setup(config.gpio_cool, GPIO.OUT)
+    #GPIO.setup(config.gpio_air, GPIO.OUT)
     GPIO.setup(config.gpio_door, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     gpio_available = True
@@ -71,8 +71,8 @@ class Kiln (threading.Thread):
         self.door = self.get_door_state()
         self.state = Kiln.STATE_IDLE
         self.set_heat(False)
-        self.set_cool(False)
-        self.set_air(False)
+        #self.set_cool(False)
+        #self.set_air(False)
         self.pid = PID(ki=config.pid_ki, kd=config.pid_kd, kp=config.pid_kp)
 
     def run_profile(self, profile):
@@ -98,13 +98,13 @@ class Kiln (threading.Thread):
                 else:
                     runtime_delta = datetime.datetime.now() - self.start_time
                     self.runtime = runtime_delta.total_seconds()
-                log.info("running at %.1f deg C (Target: %.1f) , heat %.2f, cool %.2f, air %.2f, door %s (%.1fs/%.0f)" % (self.temp_sensor.temperature, self.target, self.heat, self.cool, self.air, self.door, self.runtime, self.totaltime))
+                log.info("running at %.1f deg C (Target: %.1f) , heat %.2f, door %s (%.1fs/%.0f)" % (self.temp_sensor.temperature, self.target, self.heat, self.door, self.runtime, self.totaltime))
                 self.target = self.profile.get_target_temperature(self.runtime)
                 pid = self.pid.compute(self.target, self.temp_sensor.temperature)
 
                 log.info("pid: %.3f" % pid)
 
-                self.set_cool(pid <= -1)
+                #self.set_cool(pid <= -1)
                 if(pid > 0):
                     # The temp should be changing with the heat on
                     # Count the number of time_steps encountered with no change and the heat on
@@ -130,10 +130,10 @@ class Kiln (threading.Thread):
                 #    self.set_heat(False)
                 #    self.set_cool(self.temp_sensor.temperature > self.target)
 
-                if self.temp_sensor.temperature > 200:
-                    self.set_air(False)
-                elif self.temp_sensor.temperature < 180:
-                    self.set_air(True)
+                #if self.temp_sensor.temperature > 200:
+                #    self.set_air(False)
+                ##elif self.temp_sensor.temperature < 180:
+                #    self.set_air(True)
 
                 if self.runtime >= self.totaltime:
                     self.reset()
@@ -159,25 +159,25 @@ class Kiln (threading.Thread):
                else:
                  GPIO.output(config.gpio_heat, GPIO.LOW)
 
-    def set_cool(self, value):
-        if value:
-            self.cool = 1.0
-            if gpio_available:
-                GPIO.output(config.gpio_cool, GPIO.LOW)
-        else:
-            self.cool = 0.0
-            if gpio_available:
-                GPIO.output(config.gpio_cool, GPIO.HIGH)
+    #def set_cool(self, value):
+    #    if value:
+    #        self.cool = 1.0
+    #        if gpio_available:
+    #            GPIO.output(config.gpio_cool, GPIO.LOW)
+    #    else:
+    #        self.cool = 0.0
+    #        if gpio_available:
+    #            GPIO.output(config.gpio_cool, GPIO.HIGH)
 
-    def set_air(self, value):
-        if value:
-            self.air = 1.0
-            if gpio_available:
-                GPIO.output(config.gpio_air, GPIO.LOW)
-        else:
-            self.air = 0.0
-            if gpio_available:
-                GPIO.output(config.gpio_air, GPIO.HIGH)
+    #def set_air(self, value):
+    #    if value:
+    #        self.air = 1.0
+    #        if gpio_available:
+    #            GPIO.output(config.gpio_air, GPIO.LOW)
+    #    else:
+    #        self.air = 0.0
+    #        if gpio_available:
+    #            GPIO.output(config.gpio_air, GPIO.HIGH)
 
     def get_state(self):
         state = {
@@ -186,8 +186,8 @@ class Kiln (threading.Thread):
             'target': self.target,
             'state': self.state,
             'heat': self.heat,
-            'cool': self.cool,
-            'air': self.air,
+    #        'cool': self.cool,
+    #        'air': self.air,
             'totaltime': self.totaltime,
             'door': self.door
         }
