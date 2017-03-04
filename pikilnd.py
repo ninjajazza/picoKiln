@@ -29,7 +29,7 @@ sys.path.insert(0, script_dir + '/lib/')
 profile_path = os.path.join(script_dir, "storage", "profiles")
 
 from kiln import Kiln, Profile
-from kilnWatcher import kilnWatcher
+from kilnWatcher import KilnWatcher
 
 app = bottle.Bottle()
 kiln = Kiln()
