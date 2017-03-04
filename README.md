@@ -9,7 +9,7 @@ Based heavily on [picoReflow](https://github.com/apollo-ng/picoReflow) with the 
 
 **Standard Interface**
 
-To be updated
+!(https://github.com/ninjajazza/piKiln/blob/master/docs/images/piKiln-home-screen.png)
 
 **Curve Editor**
 
@@ -30,7 +30,8 @@ To be updated
   * Microswitch for door detection
 
 ### Schematic
-WIP
+
+!(https://github.com/ninjajazza/piKiln/blob/master/docs/images/piKiln-schematic.png)
 
 ## Installation
 
