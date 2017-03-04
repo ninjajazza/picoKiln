@@ -33,7 +33,7 @@ from kilnWatcher import KilnWatcher
 
 app = bottle.Bottle()
 kiln = Kiln()
-kilnWatcher = kilnWatcher(kiln)
+kilnWatcher = KilnWatcher(kiln)
 
 
 @app.route('/')
