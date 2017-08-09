@@ -120,8 +120,8 @@ class Kiln (threading.Thread):
                         log.info("Error reading sensor, kiln temp not responding to heat.")
                         self.reset()
 
-                  #send a log to ubidots
-                  self.send_log()
+                    #send a log to ubidots
+                    self.send_log()
 
                 else:
                     temperature_count = 0
