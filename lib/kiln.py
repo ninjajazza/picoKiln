@@ -119,6 +119,10 @@ class Kiln (threading.Thread):
                     if temperature_count > 20:
                         log.info("Error reading sensor, kiln temp not responding to heat.")
                         self.reset()
+
+                  #send a log to ubidots
+                  self.send_log()
+
                 else:
                     temperature_count = 0
 
@@ -141,9 +145,6 @@ class Kiln (threading.Thread):
 
             #Capture the last temperature value
             last_temp = self.temp_sensor.temperature
-
-            #send a log to ubidots
-            self.send_log()
 
             #sleep for the timestep period
             time.sleep(self.time_step)
