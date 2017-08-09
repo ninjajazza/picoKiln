@@ -216,9 +216,10 @@ class Kiln (threading.Thread):
         'totaltime': self.totaltime,
         'door': self.door
         }
+        print(payload) #debug
         r = requests.post(url, headers=headers, data=payload)
         log.info(r)
-        print(r)
+        print(r) #debug
 
 
 class TempSensor(threading.Thread):
