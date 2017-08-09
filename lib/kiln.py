@@ -124,7 +124,7 @@ class Kiln (threading.Thread):
                         self.reset()
 
                     # this loop reduces the remote logging frequency to save bandwidth
-                    if log_counter >= log_trigger
+                    if log_counter >= log_trigger:
                         #send a log to ubidots
                         log.info("Sending log to Ubidots")
                         self.send_log()
