@@ -206,7 +206,7 @@ class Kiln (threading.Thread):
 
     def send_log(self):
         url = config.ubidots_url
-        headers = {'X-Auth-Token':'ubidots_token'}
+        headers = {'X-Auth-Token': config.ubidots_token}
         payload = {'runtime': self.runtime,
         'temperature': self.temp_sensor.temperature,
         'target': self.target,
