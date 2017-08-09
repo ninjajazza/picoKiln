@@ -90,7 +90,7 @@ class Kiln (threading.Thread):
     def run(self):
         temperature_count = 0
         log_counter = 0
-        log_trigger = self.time_step / config.logging_time_step
+        log_trigger = config.logging_time_step / self.time_step
         log.info("Log trigger is %s steps" % log_trigger)
         last_temp = 0
         while True:
