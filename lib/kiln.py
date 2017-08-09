@@ -131,7 +131,7 @@ class Kiln (threading.Thread):
                         log_counter = 0
                     else:
                         log_counter += 1
-                        log.info("Log counter is at %s of %s steps" % log_counter, log_trigger)
+                        log.info("Log counter is at %.0f of %.0f steps" % (log_counter, log_trigger))
 
                 else:
                     temperature_count = 0
