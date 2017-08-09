@@ -217,6 +217,7 @@ class Kiln (threading.Thread):
         }
         r = requests.post(url, headers=headers, data=payload)
         log.info(r)
+        print(r)
 
 
 class TempSensor(threading.Thread):
