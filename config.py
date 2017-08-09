@@ -75,3 +75,11 @@ sim_R_ho_air   = 0.05   # K/W  " with internal air circulation
 temp_scale          = "c" # c = Celsius | f = Fahrenheit - Unit to display
 time_scale_slope    = "s" # s = Seconds | m = Minutes | h = Hours - Slope displayed in temp_scale per time_scale_slope
 time_scale_profile  = "s" # s = Seconds | m = Minutes | h = Hours - Enter and view target time in time_scale_profile
+
+########################################################################
+#
+#   Logging parameters
+ubidots_url = 'https://things.ubidots.com/api/v1.6/devices/kiln-controller-v0.1'
+ubidots_id = "58b3781b762542682ea93d8f"
+ubidots_api_key = "644b7572d52b11b08150482c60a27cec4c58f666"
+ubidots_token = "xDcEBxGgmmQR0owTeamfLSFSdhZXii"

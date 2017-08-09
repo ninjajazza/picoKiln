@@ -4,6 +4,7 @@ import random
 import datetime
 import logging
 import json
+import requests
 
 import config
 
@@ -141,6 +142,10 @@ class Kiln (threading.Thread):
             #Capture the last temperature value
             last_temp = self.temp_sensor.temperature
 
+            #send a log to ubidots
+            self.send_log()
+
+            #sleep for the timestep period
             time.sleep(self.time_step)
 
     def set_heat(self, value):
@@ -198,6 +203,20 @@ class Kiln (threading.Thread):
             return "OPEN" if GPIO.input(config.gpio_door) else "CLOSED"
         else:
             return "UNKNOWN"
+
+    def send_log(self):
+        url = ubidots_url
+        headers = {'X-Auth-Token':'ubidots_token'}
+        payload = {'runtime': self.runtime,
+        'temperature': self.temp_sensor.temperature,
+        'target': self.target,
+        'state': self.state,
+        'heat': self.heat,
+        'totaltime': self.totaltime,
+        'door': self.door
+        }
+        r = requests.post(url, headers=headers, data=payload)
+        log.info(r)
 
 
 class TempSensor(threading.Thread):

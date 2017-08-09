@@ -1,1 +1,1 @@
-{"type": "profile", "data": [[0, 25], [21600, 65], [29520, 120], [42120, 600]], "name": "low temp trial"}
+{"type": "profile", "data": [[0, 25], [4000, 100], [8000, 200], [10000, 200]], "name": "low_temp_trial"}
