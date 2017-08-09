@@ -45,7 +45,7 @@ class Kiln (threading.Thread):
     STATE_IDLE = "IDLE"
     STATE_RUNNING = "RUNNING"
 
-    def __init__(self, simulate=False, time_step=0.5):
+    def __init__(self, simulate=False, time_step=config.time_step):
         threading.Thread.__init__(self)
         self.daemon = True
         self.simulate = simulate
@@ -89,13 +89,16 @@ class Kiln (threading.Thread):
 
     def run(self):
         temperature_count = 0
+        log_counter = 0
+        log_trigger = self.time_step / config.logging_time_step
+        log.info("Log trigger is %s steps" % log_trigger)
         last_temp = 0
         while True:
             self.door = self.get_door_state()
 
             if self.state == Kiln.STATE_RUNNING:
                 if self.simulate:
-                    self.runtime += 0.5
+                    self.runtime += self.time_step
                 else:
                     runtime_delta = datetime.datetime.now() - self.start_time
                     self.runtime = runtime_delta.total_seconds()
@@ -120,8 +123,15 @@ class Kiln (threading.Thread):
                         log.info("Error reading sensor, kiln temp not responding to heat.")
                         self.reset()
 
-                    #send a log to ubidots
-                    self.send_log()
+                    # this loop reduces the remote logging frequency to save bandwidth
+                    if log_counter >= log_trigger
+                        #send a log to ubidots
+                        log.info("Sending log to Ubidots")
+                        self.send_log()
+                        log_counter = 0
+                    else:
+                        log_counter += 1
+                        log.info("Log counter is at %s of %s steps" % log_counter, log_trigger)
 
                 else:
                     temperature_count = 0
@@ -216,10 +226,9 @@ class Kiln (threading.Thread):
         'totaltime': self.totaltime,
         'door': self.door
         }
-        print(payload) #debug
+        log.info("Payload is %s" % payload)
         r = requests.post(url, headers=headers, data=payload)
-        log.info(r)
-        print(r) #debug
+        log.info("Response is %s" % r)
 
 
 class TempSensor(threading.Thread):
