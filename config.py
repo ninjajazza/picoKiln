@@ -49,9 +49,10 @@ gpio_sensor_data = 17
 #
 #   PID parameters
 
-pid_ki = 0.1  # Integration
-pid_kd = 0.4  # Derivative
-pid_kp = 0.5  # Proportional
+pid_kp = 2.00  # Proportional
+pid_ki = 0.10  # Integration
+pid_kd = 3.00  # Derivative
+
 
 
 ########################################################################

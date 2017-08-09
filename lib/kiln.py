@@ -123,16 +123,6 @@ class Kiln (threading.Thread):
                         log.info("Error reading sensor, kiln temp not responding to heat.")
                         self.reset()
 
-                    # this loop reduces the remote logging frequency to save bandwidth
-                    if log_counter >= log_trigger:
-                        #send a log to ubidots
-                        log.info("Sending log to Ubidots")
-                        self.send_log()
-                        log_counter = 0
-                    else:
-                        log_counter += 1
-                        log.info("Log counter is at %.0f of %.0f steps" % (log_counter, log_trigger))
-
                 else:
                     temperature_count = 0
 
@@ -149,6 +139,16 @@ class Kiln (threading.Thread):
                 #    self.set_air(False)
                 ##elif self.temp_sensor.temperature < 180:
                 #    self.set_air(True)
+
+                # this loop reduces the remote logging frequency to save bandwidth
+                if log_counter >= log_trigger:
+                    #send a log to ubidots
+                    log.info("Sending log to Ubidots")
+                    self.send_log()
+                    log_counter = 0
+                else:
+                    log_counter += 1
+                    log.info("Log counter is at %.0f of %.0f steps" % (log_counter, log_trigger))
 
                 if self.runtime >= self.totaltime:
                     self.reset()
