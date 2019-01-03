@@ -1,4 +1,4 @@
-piKiln
+picoKiln
 ==========
 
 Turns a Raspberry Pi into a cheap, universal & web-enabled electric kiln controller.
